@@ -1,13 +1,13 @@
-#ifndef GETAP_H
-#define GETAP_H
+#ifndef GETAPFUNC_H
+#define GETAPFUNC_H
 
 #include "ESP8266WiFi.h"
 
-  const byte numChars = 32;
+ const byte numChars = 32;
  extern char receivedChars[numChars]; // an array to store the received data
  extern boolean newData;
   
-void ScanAP();
+void GetAP();
 void recvWithEndMarker();
 void showNewData();
 

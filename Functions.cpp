@@ -9,7 +9,7 @@ void recvWithEndMarker() {
   char endMarker = '\n';
   char rc;
  
- // if (Serial.available() > 0) {
+//  if (Serial.available() > 0) {
     while (Serial.available() > 0 && newData == false) {
   rc = Serial.read();
 
@@ -27,6 +27,7 @@ void recvWithEndMarker() {
   }
  }
 }
+//}
 
 void showNewData() {
   if (newData == true) {

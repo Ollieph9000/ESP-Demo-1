@@ -13,7 +13,7 @@
 
 const char* ssid;
 const char* pass;
-
+const char* SCAN;
 
 
 // RGB or button pins are not used in LDR example
@@ -33,29 +33,45 @@ int ldr_value = 0;
 void setup() {
 
   Serial.begin(115200);
-  Serial.println("");
- 
+  delay(1000);
+  Serial.println(".");
+  pinMode(LDR_PIN, INPUT);
+  pinMode(2, OUTPUT);
+  digitalWrite(2, 1);
+
+  
+
+}
+
+void loop() {
+  
+  SCAN = "";
   GetAP();
-
-  boolean newData = false; //Is this where this should be?
   
   
-  Serial.print("Select an SSID");
-   // while(newData == false){
+  Serial.print("Select an SSID\n");
+  while(newData == false){
     recvWithEndMarker();
-   // delay(20);
- // }
+//    showNewData();
+//    Serial.println(receivedChars);
+    delay(20);
+  }
+//    strcpy(ssid, receivedChars);
     ssid = receivedChars;
+    ssid = ssid;
+    Serial.println(ssid);
     newData = false;
 
-  Serial.print("Select Password");
-  //  while(newData == false){
-    recvWithEndMarker();
-//    delay(20);
-//  }
+  Serial.print("Select Password\n");
+    while(newData == false){
+      recvWithEndMarker();
+    delay(20);\
+  }
     pass = receivedChars;
+    Serial.println(pass);
     newData = false;
   
+
   Serial.print("Connecting to ");
   Serial.println(ssid);
 
@@ -72,27 +88,27 @@ void setup() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  pinMode(LDR_PIN, INPUT);
-  pinMode(2, OUTPUT);
-
-}
-
-void loop() {
-  ldr_value = analogRead(LDR_PIN); // read input value and store it
-  Serial.println(ldr_value);
-  WiFiClient client;
-  const int httpPort = 80;
-  if (!client.connect(host, httpPort)) {
-    Serial.println("connection failed");
-    return;
-  }
+  while(SCAN != "Scan"){
+    recvWithEndMarker();
+    SCAN = receivedChars;
+    ldr_value = analogRead(LDR_PIN); // read input value and store it
+    Serial.println(ldr_value);
+    WiFiClient client;
+    const int httpPort = 80;
+    if (!client.connect(host, httpPort)) {
+      Serial.println("connection failed");
+      return;
+    }
   
  
-  client.print(String("GET ") + path + ldr_value + " HTTP/1.1\r\n" +
+    client.print(String("GET ") + path + ldr_value + " HTTP/1.1\r\n" +
                "Host: " + host + "\r\n" +
                "Connection: keep-alive\r\n\r\n");
-  analogWrite(2, static_cast<int>(PWMRANGE * 0.01 * 80));
-  delay(800);            
-  digitalWrite(2, 1);
-  delay(6000);
+    
+    analogWrite(2, static_cast<int>(PWMRANGE * 0.01 * 80));
+    delay(800);            
+    digitalWrite(2, 1);
+    
+    delay(6000);
+}
 }

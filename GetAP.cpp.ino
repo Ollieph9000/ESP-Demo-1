@@ -6,6 +6,7 @@
 #include "GetAPFunc.h"
 
 
+
 void GetAP() {
   WiFi.mode(WIFI_STA);
   WiFi.disconnect();
@@ -37,5 +38,5 @@ void GetAP() {
   Serial.println("");
 
   // Wait a bit before scanning again
-  delay(5000);
+  delay(50);
 }
