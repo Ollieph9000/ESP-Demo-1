@@ -11,8 +11,8 @@
 #include <ESP8266WebServer.h>
 #include "GetAPFunc.h"
 
-const char* ssid;
-const char* pass;
+char ssid[32];
+char pass[32];
 const char* SCAN;
 
 
@@ -47,28 +47,31 @@ void loop() {
   
   SCAN = "";
   GetAP();
+  Serial.print("\n");
   
-  
-  Serial.print("Select an SSID\n");
+  Serial.print("Enter SSID:\n");
   while(newData == false){
     recvWithEndMarker();
 //    showNewData();
 //    Serial.println(receivedChars);
     delay(20);
   }
-//    strcpy(ssid, receivedChars);
-    ssid = receivedChars;
-    ssid = ssid;
+    strcpy(ssid, receivedChars);
+//    ssid = receivedChars;
+
     Serial.println(ssid);
+    Serial.print("\n");
     newData = false;
 
-  Serial.print("Select Password\n");
+  Serial.print("Enter Password:\n");
     while(newData == false){
       recvWithEndMarker();
     delay(20);\
   }
-    pass = receivedChars;
+    strcpy(pass, receivedChars);
+  //  pass = receivedChars;
     Serial.println(pass);
+    Serial.print("\n");
     newData = false;
   
 
