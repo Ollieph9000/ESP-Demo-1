@@ -13,7 +13,7 @@
 
 char ssid[32];
 char pass[32];
-const char* SCAN;
+char SCAN[32];
 
 
 // RGB or button pins are not used in LDR example
@@ -45,7 +45,7 @@ void setup() {
 
 void loop() {
   
-  SCAN = "";
+  SCAN[0] = 0;
   GetAP();
   Serial.print("\n");
   
@@ -91,9 +91,11 @@ void loop() {
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 
-  while(SCAN != "Scan"){
+  while(strcmp(SCAN, receivedChars) != 0){
     recvWithEndMarker();
-    SCAN = receivedChars;
+    strcpy(SCAN, receivedChars);
+    Serial.println(SCAN);
+    showNewData();
     ldr_value = analogRead(LDR_PIN); // read input value and store it
     Serial.println(ldr_value);
     WiFiClient client;
